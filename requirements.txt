@@ -1,0 +1,9 @@
+flask
+flask-cors
+numpy
+librosa
+keras
+tensorflow
+pydub
+matplotlib
+scikit-learn
