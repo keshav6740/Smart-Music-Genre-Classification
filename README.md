@@ -2,7 +2,7 @@
 
 A full-stack AI-powered web app that classifies the genre of any uploaded music file using deep learning and the GTZAN dataset.
 
-![Demo Screenshot]()
+![Demo Screenshot](frontend.png)
 
 ---
 
