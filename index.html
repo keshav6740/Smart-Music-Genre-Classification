@@ -85,7 +85,7 @@
             color: white;
             margin: 0 auto;
         }
-        
+
         #errorMessage {
             display: none;
             padding: 10px;
@@ -113,7 +113,7 @@
     <div class="container py-5">
         <div class="glass-card p-4 mx-auto" style="max-width: 600px;">
             <h1 class="text-center mb-4">🎧 Music Genre Wizard</h1>
-            
+
             <div id="errorMessage" class="alert alert-danger"></div>
 
             <div class="upload-box text-center p-5 rounded-3 mb-4" id="uploadContainer">
@@ -142,13 +142,11 @@
     </div>
 
     <script>
-        // Define API endpoint with configurable host and port
-        const API_HOST = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                        ? window.location.hostname : '127.0.0.1';
+        const API_HOST = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? window.location.hostname : '127.0.0.1';
         const API_PORT = 5000;
         const API_URL = `http://${API_HOST}:${API_PORT}/predict`;
-        
-        // Show error message
+
         function showError(message) {
             console.error('Showing error:', message);
             const errorElement = document.getElementById('errorMessage');
@@ -156,8 +154,7 @@
             errorElement.style.display = 'block';
             document.getElementById('loading').classList.add('d-none');
         }
-        
-        // Hide error message
+
         function hideError() {
             document.getElementById('errorMessage').style.display = 'none';
         }
@@ -166,7 +163,6 @@
             const file = e.target.files[0];
             if (!file) return;
 
-            // Reset UI and hide any previous errors
             hideError();
             document.getElementById('loading').classList.remove('d-none');
             document.getElementById('result').classList.remove('show-result');
@@ -175,30 +171,24 @@
             formData.append('audio', file);
 
             try {
-                console.log(`Starting fetch request to ${API_URL}...`);
-                console.log('File being sent:', file.name);
-                
+                console.log(`Starting fetch request to ${API_URL}`);
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     body: formData,
                     mode: 'cors',
                 });
 
-                console.log('Response received:', response);
-                
                 if (!response.ok) {
                     throw new Error(`Server error: ${response.status}`);
                 }
 
-                const responseText = await response.text();
-                console.log('Raw response:', responseText);
-
                 let data;
                 try {
-                    data = JSON.parse(responseText);
-                    console.log('Parsed data:', data);
+                    data = await response.json(); 
+                    console.log('✅ Parsed JSON:', data);
                 } catch (e) {
-                    console.error('JSON parse error:', e);
+                    const fallback = await response.text();
+                    console.error('❌ Failed to parse JSON, raw response:', fallback);
                     throw new Error('Invalid JSON response');
                 }
 
@@ -207,7 +197,7 @@
                 }
 
                 if (data.genre) {
-                    console.log('Showing result for genre:', data.genre);
+                    console.log('🎵 Predicted genre:', data.genre);
                     showResult(data.genre);
                 } else {
                     throw new Error('No genre in response');
@@ -222,32 +212,25 @@
 
         function showResult(genre) {
             console.log('Updating UI with genre:', genre);
-            
-            // Hide loading indicator
+
             document.getElementById('loading').classList.add('d-none');
-            
-            // Update result text
             document.getElementById('genreResult').textContent = genre;
-            
-            // Show result container
+
             const resultElement = document.getElementById('result');
             resultElement.classList.add('show-result');
-            
-            // Update emoji
+
             const emojiMap = {
                 rock: '🎸', pop: '🎤', jazz: '🎷',
                 classical: '🎻', hiphop: '🎧', country: '🤠',
                 disco: '🪩', metal: '🤘', reggae: '🌴', blues: '🎹'
             };
-            
             const emoji = emojiMap[genre.toLowerCase()] || '🎵';
-            console.log('Setting emoji:', emoji);
             document.querySelector('.genre-icon').textContent = emoji;
-            
-            // Ensure result is visible
+
             resultElement.style.display = 'block';
         }
     </script>
+
 </body>
 
 </html>
