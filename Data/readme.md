@@ -37,7 +37,3 @@ https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classif
 
 ## 📜 License
 Dataset is shared under the terms specified by the Kaggle uploader. Please cite accordingly when using in research or deployment.
-
----
-
-For help, contact [@keshav6740](https://github.com/keshav6740)
