@@ -98,13 +98,3 @@ keshav6740-smart-music-genre-classification/
 ## 📊 Dataset
 See [`Data/readme.md`](Data/readme.md) for full GTZAN dataset details.
 
----
-
-## 💡 Credits
-- Built with ❤️ by [Keshav Agrawal](https://github.com/keshav6740)
-- Inspired by GTZAN genre classification challenge
-
----
-
-## 📜 License
-MIT License
